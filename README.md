@@ -1,6 +1,6 @@
-# Duct taping in C++ (huh?!)
+# Duck typing in C++ (huh?!)
 
-Some loose experiment on creating duct taping object model in C++ :)
+Some loose experiment on creating duck typing object model in C++ :)
 
 ## The idea
 
