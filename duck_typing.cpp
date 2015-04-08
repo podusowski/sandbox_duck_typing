@@ -33,7 +33,14 @@ struct function
         }
     }
 
+    function as_called_on_destruct()
+    {
+        function ret(callable_storage);
+        ret.to_be_called = true;
+        return ret;
+    }
 
+private:
     untyped_heap_storage & callable_storage;
     bool to_be_called = false;
 };
@@ -42,9 +49,7 @@ struct object
 {
     function operator / (std::string name)
     {
-        function ret = members[name].function;
-        ret.to_be_called = true; // FIXME
-        return ret;
+        return members[name].function.as_called_on_destruct();
     }
 
 private:
