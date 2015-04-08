@@ -43,7 +43,7 @@ struct object
     function operator / (std::string name)
     {
         function ret = members[name].function;
-        ret.to_be_called = true;
+        ret.to_be_called = true; // FIXME
         return ret;
     }
 
@@ -64,9 +64,9 @@ private:
 int main()
 {
     object obj;
-    obj / "hello" = [] { std::cout << "hello"; };
+    obj / "hello" = [] { std::cout << "hello" << std::endl; };
     obj / "hello";
 
-    obj / "hello1" = [] (std::string name) { std::cout << "hello " << name << std::endl; };
+    //obj / "hello1" = [] (std::string name) { std::cout << "hello " << name << std::endl; };
     //obj / "hello1" / "Piotr";
 }
