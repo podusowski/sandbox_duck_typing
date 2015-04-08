@@ -10,7 +10,20 @@ struct untyped_heap_storage
     {
     }
 
+
     untyped_heap_storage(const untyped_heap_storage &) = delete;
+
+    untyped_heap_storage & operator = (untyped_heap_storage && other)
+    {
+        pointer = other.pointer;
+        other.pointer = nullptr;
+        return *this;
+    }
+
+    untyped_heap_storage(untyped_heap_storage && other)
+    {
+        *this = std::move(other);
+    }
 
     template<class Type>
     Type & get_as()
@@ -23,6 +36,13 @@ struct untyped_heap_storage
     void construct(Args... args)
     {
         pointer = new Type(args...);
+        deleter = [this] { delete static_cast<Type*>(this->pointer); };
+    }
+
+    template<class Type>
+    void copy_from(Type value)
+    {
+        pointer = new Type(value);
         deleter = [this] { delete static_cast<Type*>(this->pointer); };
     }
 

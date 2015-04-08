@@ -2,34 +2,64 @@
 #include <map>
 #include <iostream>
 #include <functional>
+#include <memory>
+#include <cassert>
 
+#include "function_traits.hpp"
+#include "untyped_heap_storage.hpp"
 
 struct function
 {
-    function & operator = (std::function<void()> f)
+    function(untyped_heap_storage & callable_storage)
+        : callable_storage(callable_storage)
     {
-        this->f = f;
+    }
+
+    template<class Functor>
+    function & operator = (Functor f)
+    {
+        to_be_called = false;
+        this->callable_storage.construct<typename function_type<Functor>::type, typename function_type<Functor>::type>(f);
+        //this->callable_storage.copy_from(f);
         return *this;
     }
 
+    // called without args
     ~function()
     {
-        f();
+        if (to_be_called)
+        {
+            auto & f_without_args = callable_storage.get_as<std::function<void()>>();
+            f_without_args();
+        }
     }
 
-private:
-    std::function<void()> f;
+
+    untyped_heap_storage & callable_storage;
+    bool to_be_called = false;
 };
 
 struct object
 {
-    function & operator / (const std::string & name)
+    function operator / (std::string name)
     {
-        return members[name];
+        function ret = members[name].function;
+        ret.to_be_called = true;
+        return ret;
     }
 
 private:
-    std::map<std::string, function> members;
+    struct member
+    {
+        member() : function(callable_storage)
+        {
+        }
+
+        untyped_heap_storage callable_storage;
+        function function;
+    };
+
+    std::map<std::string, member> members;
 };
 
 int main()
@@ -37,4 +67,7 @@ int main()
     object obj;
     obj / "hello" = [] { std::cout << "hello"; };
     obj / "hello";
+
+    obj / "hello1" = [] (std::string name) { std::cout << "hello " << name << std::endl; };
+    //obj / "hello1" / "Piotr";
 }
