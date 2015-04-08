@@ -32,17 +32,10 @@ struct untyped_heap_storage
         return *static_cast<Type*>(pointer);
     }
 
-    template<class Type, class Args>
-    void construct(Args args)
+    template<class Type>
+    void copy_from(Type args)
     {
         pointer = new Type(args);
-        deleter = [this] { delete static_cast<Type*>(this->pointer); };
-    }
-
-    template<class Type>
-    void copy_from(Type value)
-    {
-        pointer = new Type(value);
         deleter = [this] { delete static_cast<Type*>(this->pointer); };
     }
 

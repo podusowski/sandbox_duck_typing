@@ -19,8 +19,7 @@ struct function
     function & operator = (Functor f)
     {
         to_be_called = false;
-        this->callable_storage.construct<typename function_type<Functor>::type, typename function_type<Functor>::type>(f);
-        //this->callable_storage.copy_from(f);
+        this->callable_storage.copy_from<typename function_type<Functor>::type>(f);
         return *this;
     }
 
