@@ -1,0 +1,1 @@
+target application duct_taping sources(duct_taping.cpp) run_after("${__build}/duct_taping") compiler_flags(-std=c++14)
