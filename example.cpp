@@ -35,4 +35,13 @@ int main()
     obj["hello1"](1);
     obj["hello_with_string"](std::string("Piotr"));
     obj["hello_with_int_and_string"](2, std::string("Piotr"));
+
+    try
+    {
+        obj["hello_with_int_and_string"](2, 10);
+    }
+    catch (std::exception e)
+    {
+        std::cout << "oops: " << e.what();
+    }
 }
