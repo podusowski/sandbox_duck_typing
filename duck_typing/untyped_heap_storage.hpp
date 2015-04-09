@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <stdexcept>
+#include <typeinfo>
 
 struct untyped_heap_storage
 {
@@ -33,6 +34,12 @@ struct untyped_heap_storage
         {
             throw std::runtime_error("pointer is nullptr");
         }
+
+        if (type != &typeid(Type))
+        {
+            throw std::runtime_error("wrong type");
+        }
+
         return *static_cast<Type*>(pointer);
     }
 
@@ -40,6 +47,7 @@ struct untyped_heap_storage
     void copy_from(Type args)
     {
         pointer = new Type(args);
+        type = &typeid(args);
         deleter = [this] { delete static_cast<Type*>(this->pointer); };
     }
 
@@ -54,5 +62,6 @@ struct untyped_heap_storage
 private:
     deleter_type deleter;
     void * pointer = nullptr;
+    std::type_info const * type = nullptr;
 };
 

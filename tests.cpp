@@ -47,3 +47,12 @@ TEST(object_tests, called_non_existing_method)
 
     EXPECT_ANY_THROW((obj / "non_existing")());
 }
+
+TEST(object_tests, called_with_wrong_arguments)
+{
+    object obj;
+
+    obj / "method" = [] {};
+
+    EXPECT_ANY_THROW((obj / "method")(5));
+}
