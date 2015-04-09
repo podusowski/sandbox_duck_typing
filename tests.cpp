@@ -8,14 +8,14 @@ TEST(object_tests, lambda_without_arguemnt_can_be_called)
 
     object obj;
 
-    obj / "method" = [&called] ()
+    obj["method"] = [&called] ()
     {
         called = true;
     };
 
     EXPECT_FALSE(called);
 
-    (obj / "method")();
+    obj["method"]();
 
     EXPECT_TRUE(called);
 }
@@ -27,7 +27,7 @@ TEST(object_tests, lambda_with_one_arguemnt_can_be_called)
 
     object obj;
 
-    obj / "method" = [&] (int i)
+    obj["method"] = [&] (int i)
     {
         called = true;
         arg1 = i;

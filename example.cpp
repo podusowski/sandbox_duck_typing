@@ -31,8 +31,8 @@ int main()
         std::cout << "hello " << i << " " << s << std::endl;
     };
 
-    (obj / "hello")();
-    (obj / "hello1")(1);
-    (obj / "hello_with_string")(std::string("Piotr"));
-    (obj / "hello_with_int_and_string")(2, std::string("Piotr"));
+    obj["hello"]();
+    obj["hello1"](1);
+    obj["hello_with_string"](std::string("Piotr"));
+    obj["hello_with_int_and_string"](2, std::string("Piotr"));
 }
