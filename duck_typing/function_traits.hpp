@@ -24,9 +24,3 @@ struct function_type<Result(*)(Args...)>
 {
     typedef std::function<Result(Args...)> type;
 };
-
-auto l = []{};
-
-static_assert(std::is_same<std::function<void()>,
-                           function_type<decltype(l)>::type
-                          >::value, "");
