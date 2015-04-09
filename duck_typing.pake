@@ -4,12 +4,3 @@ target application example \
     sources(example.cpp) \
     run_after("${__build}/example") \
     include_dirs(.)
-
-target application tests \
-    sources(tests.cpp) \
-    run_after("${__build}/tests") \
-    include_dirs(. $gtest.__path) \
-    link_with(gtest pthread) \
-    depends_on(gtest)
-
-target static_library function_traits_static_asserts sources(function_traits_static_asserts.cpp) include_dirs(.) # just needs to compile
