@@ -10,9 +10,23 @@
 int main()
 {
     object obj;
-    obj / "hello" = [] { std::cout << "hello" << std::endl; };
-    obj / "hello1" = [] (int i) { std::cout << "hello " << i << std::endl; };
+
+    obj / "hello" = []
+    {
+        std::cout << "hello" << std::endl;
+    };
+
+    obj / "hello1" = [] (int i)
+    {
+        std::cout << "hello " << i << std::endl;
+    };
+
+    obj / "hello_with_string" = [] (std::string s)
+    {
+        std::cout << "hello " << s << std::endl;
+    };
 
     obj / "hello";
     obj / "hello1" / 1;
+    obj / "hello_with_string" / std::string("Piotr");
 }
