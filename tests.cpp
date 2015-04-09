@@ -35,7 +35,7 @@ TEST(object_tests, lambda_with_one_arguemnt_can_be_called)
 
     EXPECT_FALSE(called);
 
-    (obj / "method")(2);
+    obj["method"](2);
 
     EXPECT_TRUE(called);
     EXPECT_EQ(2, arg1);
@@ -45,16 +45,16 @@ TEST(object_tests, called_non_existing_method)
 {
     object obj;
 
-    EXPECT_ANY_THROW((obj / "non_existing")());
+    EXPECT_ANY_THROW(obj["non_existing"]());
 }
 
 TEST(object_tests, called_with_wrong_arguments)
 {
     object obj;
 
-    obj / "method" = [] {};
+    obj["method"] = [] {};
 
-    EXPECT_ANY_THROW((obj / "method")(5));
+    EXPECT_ANY_THROW(obj["method"](5));
 }
 
 TEST(object_tests, object_can_be_a_value)

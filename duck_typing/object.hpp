@@ -50,11 +50,6 @@ struct object
         return *this;
     }
 
-    function operator / (std::string name)
-    {
-        return members[name].function;
-    }
-
     function operator [] (std::string name)
     {
         return members[name].function;
