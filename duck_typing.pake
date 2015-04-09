@@ -1,1 +1,1 @@
-target application duck_typing sources(duck_typing.cpp) run_after("${__build}/duck_typing") compiler_flags(-std=c++14)
+target application duck_typing sources(duck_typing.cpp) run_after("${__build}/duck_typing") compiler_flags(-std=c++14) include_dirs(.)
