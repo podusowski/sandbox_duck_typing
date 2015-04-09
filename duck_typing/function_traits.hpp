@@ -13,6 +13,12 @@ struct function_type<Result(Class::*)(Args...) const>
     typedef std::function<Result(Args...)> type;
 };
 
+template<class Result, class Class, class... Args>
+struct function_type<Result(Class::*)(Args...)>
+{
+    typedef std::function<Result(Args...)> type;
+};
+
 template<class Result, class... Args>
 struct function_type<Result(*)(Args...)>
 {
