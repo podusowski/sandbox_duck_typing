@@ -7,13 +7,16 @@
 struct untyped_heap_storage
 {
     typedef std::function<void()> deleter_type;
+    typedef std::function<untyped_heap_storage()> cloner_type;
 
     untyped_heap_storage()
     {
     }
 
-
-    untyped_heap_storage(const untyped_heap_storage &) = delete;
+    untyped_heap_storage(const untyped_heap_storage & other)
+    {
+        *this = other.cloner();
+    }
 
     untyped_heap_storage & operator = (untyped_heap_storage && other)
     {
@@ -49,6 +52,7 @@ struct untyped_heap_storage
         pointer = new Type(args);
         type = &typeid(args);
         deleter = [this] { delete static_cast<Type*>(this->pointer); };
+        cloner = [this] { untyped_heap_storage ret; ret.copy_from(this->get_as<Type>()); return ret; };
     }
 
     ~untyped_heap_storage()
@@ -61,6 +65,7 @@ struct untyped_heap_storage
 
 private:
     deleter_type deleter;
+    cloner_type cloner;
     void * pointer = nullptr;
     std::type_info const * type = nullptr;
 };

@@ -56,3 +56,11 @@ TEST(object_tests, called_with_wrong_arguments)
 
     EXPECT_ANY_THROW((obj / "method")(5));
 }
+
+TEST(object_tests, object_can_be_a_value)
+{
+    object a = 2;
+    object b = 5;
+
+    EXPECT_EQ(7, a.as<int>() + b.as<int>());
+}
