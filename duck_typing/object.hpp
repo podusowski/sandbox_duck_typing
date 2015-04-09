@@ -3,6 +3,7 @@
 #include "untyped_heap_storage.hpp"
 #include "function_traits.hpp"
 
+#include <map>
 #include <functional>
 
 struct function
