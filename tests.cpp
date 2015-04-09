@@ -40,3 +40,10 @@ TEST(object_tests, lambda_with_one_arguemnt_can_be_called)
     EXPECT_TRUE(called);
     EXPECT_EQ(2, arg1);
 }
+
+TEST(object_tests, called_non_existing_method)
+{
+    object obj;
+
+    EXPECT_ANY_THROW((obj / "non_existing")());
+}

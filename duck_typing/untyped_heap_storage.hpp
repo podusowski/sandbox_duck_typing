@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <stdexcept>
 
 struct untyped_heap_storage
 {
@@ -28,7 +29,10 @@ struct untyped_heap_storage
     template<class Type>
     Type & get_as()
     {
-        assert(pointer);
+        if (!pointer)
+        {
+            throw std::runtime_error("pointer is nullptr");
+        }
         return *static_cast<Type*>(pointer);
     }
 

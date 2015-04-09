@@ -23,7 +23,7 @@ struct function
     template<class... Args>
     void operator () (Args... args)
     {
-        auto & f= callable_storage.get_as<std::function<void(Args...)>>();
+        auto & f = callable_storage.get_as<std::function<void(Args...)>>();
         f(args...);
     }
 
