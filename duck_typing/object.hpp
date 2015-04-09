@@ -14,6 +14,12 @@ struct function_with_param_caller
     {
     }
 
+    template<class Argument>
+    function_with_param_caller<Argument> operator / (Argument arg)
+    {
+        return function_with_param_caller<Argument>(callable_storage, arg);
+    }
+
     ~function_with_param_caller()
     {
         auto & f = callable_storage.get_as<std::function<void(Param)>>();
@@ -50,11 +56,18 @@ struct function
     // called without args
     ~function()
     {
-        if (to_be_called)
-        {
-            auto & f_without_args = callable_storage.get_as<std::function<void()>>();
-            f_without_args();
-        }
+        //if (to_be_called)
+        //{
+        //    auto & f_without_args = callable_storage.get_as<std::function<void()>>();
+        //    f_without_args();
+        //}
+    }
+
+    template<class... Args>
+    void operator () (Args... args)
+    {
+        auto & f= callable_storage.get_as<std::function<void(Args...)>>();
+        f(args...);
     }
 
     function as_called_on_destruct()
