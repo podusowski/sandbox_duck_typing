@@ -5,6 +5,26 @@
 
 #include <functional>
 
+template<class Param>
+struct function_with_param_caller
+{
+    function_with_param_caller(untyped_heap_storage & callable_storage, Param param)
+        : callable_storage(callable_storage),
+          param(param)
+    {
+    }
+
+    ~function_with_param_caller()
+    {
+        auto & f = callable_storage.get_as<std::function<void(Param)>>();
+        f(param);
+    }
+
+private:
+    Param param;
+    untyped_heap_storage & callable_storage;
+};
+
 struct function
 {
     function(untyped_heap_storage & callable_storage)
@@ -18,6 +38,13 @@ struct function
         to_be_called = false;
         this->callable_storage.copy_from<typename function_type<Functor>::type>(f);
         return *this;
+    }
+
+    template<class Argument>
+    function_with_param_caller<Argument> operator / (Argument arg)
+    {
+        to_be_called = false;
+        return function_with_param_caller<Argument>(callable_storage, arg);
     }
 
     // called without args

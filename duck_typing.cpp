@@ -11,8 +11,8 @@ int main()
 {
     object obj;
     obj / "hello" = [] { std::cout << "hello" << std::endl; };
-    obj / "hello1" = [] (std::string name) { std::cout << "hello " << name << std::endl; };
+    obj / "hello1" = [] (int i) { std::cout << "hello " << i << std::endl; };
 
     obj / "hello";
-    //obj / "hello1" / "Piotr";
+    obj / "hello1" / 1;
 }
